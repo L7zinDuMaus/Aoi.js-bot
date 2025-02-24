@@ -35,7 +35,7 @@ client.command({
     code: `$eval[$message]`
 });
 
-client.loadCommands("./commands"); // Carrega os comandos da pasta "comandos"
+client.loadCommands("./Commands"); // Carrega os comandos da pasta "comandos"
 
 // Iniciar o bot
 client.login();
