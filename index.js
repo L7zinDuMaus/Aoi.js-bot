@@ -1,5 +1,5 @@
 const { AoiClient } = require("aoi.js");
-const { InviteManager } = require("@akarui/aoi.invite");a
+const { InviteManager } = require("@akarui/aoi.invite");
 
 const client = new AoiClient({
     token: config.Token, // Token do Bot
