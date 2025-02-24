@@ -1,33 +1,60 @@
-const aoi = require("aoi.js")
-const bot = new aoi.Bot({
-     token: config.Token,
-     prefix: [config.Prefix_1,config.Prefix_2,config.Prefix_3]
+const { AoiClient } = require("aoi.js");
+const { InviteManager } = require("@akarui/aoi.invite");
+
+const client = new AoiClient({
+    token: config.Token, // Token do Bot
+    prefix: ".", // Prefixo do Bot
+    intents: ["MessageContent", "Guilds", "GuildMessages"],
+    events: ["onMessage", "onInteractionCreate"],
+    database: {
+        type: "aoi.db",
+        db: require("@aoijs/aoi.db"),
+        dbType: "KeyValue",
+        tables: ["main"],
+        securityKey: "a-32-characters-long-string-here"
+    }
 });
 
-bot.onMessage({
-  guildOnly: false //make commands work in dms
-});
-bot.onMusicStart()
-bot.musicStartCommand({
- channel: "$channelID", 
- code: `
- $color[RANDOM]
- $author[Now Playing]
- $description[Playing $songInfo[title]]`
-});
-bot.musicEndCommand({
-        channel: "$channelID",
-        code: `$sendMessage[{description: I'm leaving the Voice Channel since no one is playing music anymore}{delete:5s};no]`
-        });
+new InviteManager(
+  client,
+  {
+    sk: "11111111112222222222333333333344",
+  },
+  ["inviteJoin", "inviteLeave"]
+);
 
-bot.loadCommands('./Commmands/'); //command handler
-bot.status ({
- text: "${config.Prefix_3} help",
- type: "LISTENING",
- time: 10
+// Comando Ping
+client.command({
+    name: "ping",
+    code: `Pong! $pingms`
 });
-bot.variables ({
-  wallet: "0", //wallet money
-  bank: "0", //bank money
-  bio: "I am Just a Plain Human" //user bio for profile
+
+// Comando de Avaliação
+client.command({
+    name: "eval",
+    code: `$eval[$message]`
+});
+
+client.loadCommands("./commands"); // Carrega os comandos da pasta "comandos"
+
+// Iniciar o bot
+client.login();
+
+client.variables({
+    canal_ticket: "",
+    criador_ticket: "",
+    categoria_ticket: "",
+    cargo_ticket: "",
+    registros_ticket: "",
+    feedback_ticket: "",
+    assumido_ticket: "",
+    desc_ticket: "",
+    color_ticket: "ffffff",
+    description_ticket: "",
+    title_ticket: "",
+    thumbnail_ticket: "",
+    image_ticket: "",
+    footer_ticket: "",
+    user_ticket: "",
+    channelvar_ticket: "",
 });
